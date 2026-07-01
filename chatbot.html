@@ -1,0 +1,41 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+  
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <!-- external library -->
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+      function ChatInput() {
+        // return HTML
+        return (
+          <>
+            <input placeholder="Send a mesage to chatbot" />
+            <button>Send</button>
+          </ >
+        );
+      }
+
+    // div = container
+    // ini yang ditampilkan ke website
+    const app = (
+        <>
+          <ChatInput />
+        </>
+    );
+
+    const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(
+        // ini yang akan di render, yang akan ditampilkan ke websitenya
+        app
+      );
+    </script>
+  </body>
+</html>
