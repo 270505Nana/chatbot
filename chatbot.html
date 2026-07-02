@@ -15,7 +15,10 @@
         return (
           // size di input box adalah berapa banyaknya karakter yang fits didalamya
           <>
-            <input placeholder="Send a mesage to chatbot" size="40"/>
+            <input 
+            placeholder="Send a mesage to chatbot" 
+            size="40"
+            />
             <button>Send</button>
           </>
         );
@@ -23,41 +26,35 @@
 
       function ChatMessage({message, sender}){
         // props parameter itu object yang contain all attributes yg kita kasih di function return app dibawah 
-        if(sender == "robot"){
-          return (
-            <div>
-              <img src="public/robot.png" width="50"/>
-              {message}              
-            </div>
-          );
-        }
-
-        // return untuk user
          return (
           <div>
-            {message}            
-            <img src="public/profile.png" width="50"/>
+            {sender == "robot" && (
+              <img src="public/robot.png" width="50"/>
+            )}
+            {message}
+            {sender == "user" && (
+              <img src="public/profile.png" width="50"/>
+            )}            
           </div>
         );
       }
 
-    // yg di render ke website
-    // sender -> to recognize who send the message
-    const app = (
-      <>
-        <ChatInput />
-        <ChatMessage message="hello chatbot" sender="user" /> 
-        <ChatMessage message="Hello! how can i help you?" sender="robot"/> 
-        <ChatMessage message="Todays date" sender="user"/> 
-        <ChatMessage message="Today is July 1" sender="robot"/> 
-      </>
-    );
+      function App(){
+        <>
+          <ChatInput />
+          <ChatMessage message="hello chatbot" sender="user" /> 
+          <ChatMessage message="Hello! how can i help you?" sender="robot"/> 
+          <ChatMessage message="Todays date" sender="user"/> 
+          <ChatMessage message="Today is July 1" sender="robot"/> 
+        </>
+      }
 
-    const container = document.querySelector('.js-container');
-      ReactDOM.createRoot(container).render(
-        // ini yang akan di render, yang akan ditampilkan ke websitenya
-        app
+      const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(
+          // ini yang akan di render, yang akan ditampilkan ke websitenya
+          <App/>
       );
+
     </script>
   </body>
 </html>
