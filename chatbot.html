@@ -26,7 +26,7 @@
 
       function ChatMessage({message, sender}){
         // props parameter itu object yang contain all attributes yg kita kasih di function return app dibawah 
-         return (
+        return (
           <div>
             {sender == "robot" && (
               <img src="public/robot.png" width="50"/>
@@ -39,14 +39,76 @@
         );
       }
 
+      function ChatMessages(){
+        // variabel yg menyimpan informasi, yang berbentuk array dengan object >1
+        const chatMessages = [
+          // object 1, dengan 2 properties
+          {
+            message: 'hello chatbot',
+            sender: 'user',
+            id:'id1'
+          },
+          {
+            message: 'Hello! how can i help you?',
+            sender: 'robot',
+            id:'id2'
+          },
+          {
+            message: 'Todays date',
+            sender: 'user',
+            id:'id3'
+          },
+          {
+            message: 'Today is July 1',
+            sender: 'robot',
+            id:'id4' //wajib memiliki unique key
+          }
+        ];
+
+        // nameof information
+        // for using map we need to create a function
+
+        // arrow function : fungsinya sama kaya function biasa cuma penulisannya lebih singkat
+        // arrow function biasa dipake di map fnction gni, tujuannya biar penulisan function lebih singkat
+        // .map itu mengambil tiap value yang ada di array atas lalu menyimpannya sebagai value baru
+        
+        //const chatMessageComponents = chatMessages.map((chatMessage) => {
+          // jadi chatMessage ini sebagai parameter, dimana kalo functionnya dipanggil otomatis chatMessage akan menampilkan newValue1
+          // return (<ChatMessage
+            // karna tiap object memiliki 2 prop yaitu mesage & sender, jadi disini disetting juga
+            
+            // message={chatMessage.message}
+            // sender={chatMessage.sender}
+          // />);
+        // });
+
+        // penulisannya bisa ky yg diatas, atau more effective follow below
+
+        // ketika kita manggilnya langsung "{chatMessageComponents}" maka dia akan langsung menampilkan semua value yang ada didalam arraynya
+          
+        return (
+          <>
+            {chatMessages.map((chatMessage) => {
+              // jadi chatMessage ini sebagai parameter, dimana kalo functionnya dipanggil otomatis chatMessage akan menampilkan newValue1
+              return (<ChatMessage
+                // karna tiap object memiliki 2 prop yaitu mesage & sender, jadi disini disetting juga
+                // tiap data yg/object harus punya unique key
+                message={chatMessage.message}
+                sender={chatMessage.sender}
+                key={chatMessage.id}
+              />);
+            })}
+          </>
+        );
+      }
+
       function App(){
+        return (
         <>
           <ChatInput />
-          <ChatMessage message="hello chatbot" sender="user" /> 
-          <ChatMessage message="Hello! how can i help you?" sender="robot"/> 
-          <ChatMessage message="Todays date" sender="user"/> 
-          <ChatMessage message="Today is July 1" sender="robot"/> 
+          <ChatMessages/>
         </>
+        )      
       }
 
       const container = document.querySelector('.js-container');
