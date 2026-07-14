@@ -12,12 +12,17 @@
     <script type="text/babel">
 
       function ChatInput() {
+        function saveInputText(){
+
+        }
+        
         return (
           // size di input box adalah berapa banyaknya karakter yang fits didalamya
           <>
             <input 
             placeholder="Send a mesage to chatbot" 
             size="40"
+            onChange={}
             />
             <button>Send</button>
           </>
@@ -41,7 +46,10 @@
 
       function ChatMessages(){
         // variabel yg menyimpan informasi, yang berbentuk array dengan object >1
-        const chatMessages = [
+        // masih belum menggunakan state
+
+        // return sebagai sebuah array, jadi sekarang kl array ini ditambah maka statenya akan bertambah dan berubah juga di HTML nya
+        const [chatMessages, setChatMessages] = React.useState([
           // object 1, dengan 2 properties
           {
             message: 'hello chatbot',
@@ -63,9 +71,15 @@
             sender: 'robot',
             id:'id4' //wajib memiliki unique key
           }
-        ];
+        ]);
+        // lalu ada shortcur lagi, daripada melakukan destructuring setelah state kita langsung destructuring di statenya aja
+        // before : const array = React.useState([...]);
+        
+        //const [chatMessages, setChatMessages] = array; //shortcut dari 2 baris dibawah ini
+        //const chatMessages = array[0]; //the current data
+        //const setChatMessages = array[1]; //updater function
 
-        // nameof information
+        // name of information
         // for using map we need to create a function
 
         // arrow function : fungsinya sama kaya function biasa cuma penulisannya lebih singkat
@@ -85,9 +99,34 @@
         // penulisannya bisa ky yg diatas, atau more effective follow below
 
         // ketika kita manggilnya langsung "{chatMessageComponents}" maka dia akan langsung menampilkan semua value yang ada didalam arraynya
-          
-        return (
+       
+        // create a function yang dipanggil di button send message
+        function sendMessage(){
+          // chatMessages.push({
+          //   // menambahkan satu objek ke array chatMessages
+          //   message:'test',
+          //   sender:'user',
+          //   id:crypto.randomUUID() //generate unique key id
+          // });
+
+          // console.log(chatMessages);
+
+          // diubah menggunakan sebuah function untuk merubah state HTML nya
+          setChatMessages([
+            ...chatMessages,
+            // ini data baru yg mau ditambahan di copy array chatMessages, jadi kalo mau nambahin data baru tinggal ditambahin aja di array ini
+            {
+              message:'test',
+              sender:'user',
+              id:crypto.randomUUID() //generate unique key id
+            }
+          ]);
+        }
+       
+        return ( 
           <>
+            <button onClick={sendMessage}>Send Message</button>
+
             {chatMessages.map((chatMessage) => {
               // jadi chatMessage ini sebagai parameter, dimana kalo functionnya dipanggil otomatis chatMessage akan menampilkan newValue1
               return (<ChatMessage
