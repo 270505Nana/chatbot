@@ -13,6 +13,25 @@
         font-size: 15x;
         cursor: pointer;
       }
+
+      .chat-input{
+        padding: 12px 15px;
+        border-radius : 10px;
+        border-width: 1px;
+        font-size: 15px;
+        flex-grow: 1;
+      }
+
+      .chat-input-container{
+        display:flex;
+      }
+
+      .app-container{
+        max-width: 600px;
+        /* for centering */
+        margin-left: auto;
+        margin-right: auto;
+      }
     </style>
   </head>
   <body>
@@ -70,16 +89,19 @@
 
         return (
           // size di input box adalah berapa banyaknya karakter yang fits didalamya
-          <>
+          // ingin membuat komponen search & buttonnya flexible, jd ngikutin uk chromenya. Pakai flexbox
+           
+          <div className="chat-input-container">            
             <input 
             placeholder="Send a mesage to chatbot" 
             size="40"
             onChange={saveInputText}
             value={inputText}
+            className="chat-input"
             />
 
             <button onClick={sendMessage} className="send-button ">Send</button>
-          </>
+          </div>
         );
       }
 
@@ -176,7 +198,7 @@
         ]);
      
         return (
-        <>
+        <div className ="app-container">
           <ChatInput
           // by props, fo distribution/sharing/inheri to child
             chatMessages={chatMessages}
@@ -186,7 +208,7 @@
             chatMessages={chatMessages}
 
             />
-        </>
+        </div>
         )      
       }
 
