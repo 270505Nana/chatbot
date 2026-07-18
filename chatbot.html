@@ -5,6 +5,9 @@
     <style>
       body{
         font-family: Arial;
+        /* defaultnya all round is 8px */
+        margin-top: 0px;
+        margin-bottom: 0px;
       }
       .send-button{
         background-color: rgb(25, 135, 84);
@@ -27,6 +30,7 @@
 
       .chat-input-container{
         display:flex;
+        margin-bottom: 60px;
       }
 
       .app-container{
@@ -34,10 +38,14 @@
         /* for centering */
         margin-left: auto;
         margin-right: auto;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        
       }
 
       .chat-message-user{
-        display: flex;
+        display: flex;b
         justify-content: end;
         align-items: start;
       }
@@ -63,6 +71,10 @@
         width: 45px;
       }
 
+      .chat-message-container{
+        flex-grow: 1;
+        margin-top: 20px;
+      }
 
     </style>
   </head>
@@ -180,7 +192,7 @@
         // ketika kita manggilnya langsung "{chatMessageComponents}" maka dia akan langsung menampilkan semua value yang ada didalam arraynya
       //  this -> to generate all messages (looping)
         return ( 
-          <>
+          <div className="chat-message-container">
             {chatMessages.map((chatMessage) => {
               // jadi chatMessage ini sebagai parameter, dimana kalo functionnya dipanggil otomatis chatMessage akan menampilkan newValue1
               return (<ChatMessage
@@ -191,7 +203,7 @@
                 key={chatMessage.id}
               />);
             })}
-          </>
+          </div>
         );
       }
 
@@ -235,15 +247,15 @@
      
         return (
         <div className ="app-container">
+    
+          <ChatMessages
+            chatMessages={chatMessages}/>
+          
           <ChatInput
           // by props, fo distribution/sharing/inheri to child
             chatMessages={chatMessages}
             setChatMessages={setChatMessages}
           />
-          <ChatMessages
-            chatMessages={chatMessages}
-
-            />
         </div>
         )      
       }
