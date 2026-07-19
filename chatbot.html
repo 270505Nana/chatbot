@@ -2,6 +2,83 @@
 <html>
   <head>
     <title>Chatbot</title>
+    <style>
+      body{
+        font-family: Arial;
+        /* defaultnya all round is 8px */
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+      .send-button{
+        background-color: rgb(25, 135, 84);
+        color:white;
+        padding: 12px 20px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 10px;
+        font-size: 15x;
+        cursor: pointer;
+      }
+
+      .chat-input{
+        padding: 12px 15px;
+        border-radius : 10px;
+        border-width: 1px;
+        font-size: 15px;
+        flex-grow: 1;
+      }
+
+      .chat-input-container{
+        display:flex;
+        margin-bottom: 60px;
+      }
+
+      .app-container{
+        max-width: 600px;
+        /* for centering */
+        margin-left: auto;
+        margin-right: auto;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        
+      }
+
+      .chat-message-user{
+        display: flex;
+        justify-content: end;
+        align-items: start;
+      }
+
+      
+      .chat-message-robot{
+        display: flex;
+        justify-content: start;
+        align-items: start;
+      }
+
+      .chat-message-text{
+        background-color: bisque;
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-bottom: 20px;
+        max-width: 300px;
+      }
+
+      .chat-message-profile{
+        width: 45px;
+      }
+
+      .chat-message-container{
+        flex-grow: 1;
+        margin-top: 20px;
+        overflow: scroll;
+        scrollbar-width: none;
+      }
+
+    </style>
   </head>
   <body>
     <div class="js-container"></div>
@@ -58,37 +135,60 @@
 
         return (
           // size di input box adalah berapa banyaknya karakter yang fits didalamya
-          <>
+          // ingin membuat komponen search & buttonnya flexible, jd ngikutin uk chromenya. Pakai flexbox
+           
+          <div className="chat-input-container">            
             <input 
             placeholder="Send a mesage to chatbot" 
             size="40"
             onChange={saveInputText}
             value={inputText}
+            className="chat-input"
             />
 
-            <button onClick={sendMessage}>Send</button>
-          </>
+            <button onClick={sendMessage} className="send-button ">Send</button>
+          </div>
         );
       }
 
       function ChatMessage({message, sender}){
         // props parameter itu object yang contain all attributes yg kita kasih di function return app dibawah 
         return (
-          <div>
+          <div className={sender === 'user' ? 'chat-message-user' : 'chat-message-robot'}>
             {sender == "robot" && (
-              <img src="public/robot.png" width="50"/>
+              <img src="public/robot.png" className="chat-message-profile"/>
             )}
-            {message}
+
+            <div className="chat-message-text">
+              {message}  
+            </div>
+            
             {sender == "user" && (
-              <img src="public/profile.png" width="50"/>
+              <img src="public/profile.png" className="chat-message-profile"/>
             )}            
           </div>
         );
       }
 
       function ChatMessages({chatMessages}){
+        const chatMessagesRef = React.useRef(null);
+        // container div dibawah disimpan oleh react ke var diatas
+        // perlu akses ke container div karena ingin membuat auto scrollable
 
-        // name of information
+
+
+        // react hooks, akan di running setelah component created & everytime component update
+        // [] : dependency array param control useEffect ketka di running. Empty array useEffect run only once after the component is created
+        // best nya adalah setiap react useEffect kasih depen array biar dia nggak keseringan running
+        React.useEffect(() => {
+          const containerElem = chatMessagesRef.current; //dipanggil disini agar bisa auto scrollable. ref untuk referensi containernya. di useEffect untuk aksinya
+          if(containerElem){
+            containerElem.scrollTop = containerElem.scrollHeight;
+          }
+        },[chatMessages]);
+        // Running if chatMessages was updated
+
+
         // for using map we need to create a function
 
         // arrow function : fungsinya sama kaya function biasa cuma penulisannya lebih singkat
@@ -110,7 +210,7 @@
         // ketika kita manggilnya langsung "{chatMessageComponents}" maka dia akan langsung menampilkan semua value yang ada didalam arraynya
       //  this -> to generate all messages (looping)
         return ( 
-          <>
+          <div className="chat-message-container" ref={chatMessagesRef}>
             {chatMessages.map((chatMessage) => {
               // jadi chatMessage ini sebagai parameter, dimana kalo functionnya dipanggil otomatis chatMessage akan menampilkan newValue1
               return (<ChatMessage
@@ -121,7 +221,7 @@
                 key={chatMessage.id}
               />);
             })}
-          </>
+          </div>
         );
       }
 
@@ -164,17 +264,17 @@
         ]);
      
         return (
-        <>
+        <div className ="app-container">
+    
+          <ChatMessages
+            chatMessages={chatMessages}/>
+          
           <ChatInput
           // by props, fo distribution/sharing/inheri to child
             chatMessages={chatMessages}
             setChatMessages={setChatMessages}
           />
-          <ChatMessages
-            chatMessages={chatMessages}
-
-            />
-        </>
+        </div>
         )      
       }
 
