@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import {Chatbot} from 'supersimpledev';
+import RobotProfile from './assets/robot.png';
+import UserProfile from './assets/profile.png';
 import './App.css'
 
 // function component : dengan return JSX view text input perintah kepada chatbot
 function ChatInput({ chatMessages, setChatMessages }) {
-  const [inputText, setInputText] = React.useState('');
+  const [inputText, setInputText] = useState('');
 
   // function yg dijalankan untuk save input text user ke state by event.target.value, jadi setiap kali user mengetik di input box maka state akan berubah sesuai dengan value yg diketik
   function saveInputText(event){
@@ -31,7 +34,7 @@ function ChatInput({ chatMessages, setChatMessages }) {
       setChatMessages([
       // dengan menggunakan newChatMessages maka rewuest kita sudah tersimpan dan akan tampil uga.
       // karena yg dipakai merupakan array terbaru include request ktia
-      ...newChatMessages,
+      ...newChatMessages, //...mean copy
       {
         message:response,
         sender:'robot',
@@ -66,7 +69,7 @@ function ChatMessage({message, sender}){
   return (
     <div className={sender === 'user' ? 'chat-message-user' : 'chat-message-robot'}>
       {sender == "robot" && (
-        <img src="public/robot.png" className="chat-message-profile"/>
+        <img src={RobotProfile} className="chat-message-profile"/>
       )}
 
       <div className="chat-message-text">
@@ -74,23 +77,21 @@ function ChatMessage({message, sender}){
       </div>
       
       {sender == "user" && (
-        <img src="public/profile.png" className="chat-message-profile"/>
+        <img src={UserProfile} className="chat-message-profile"/>
       )}            
     </div>
   );
 }
 
 function ChatMessages({chatMessages}){
-  const chatMessagesRef = React.useRef(null);
+  const chatMessagesRef = useRef(null);
   // container div dibawah disimpan oleh react ke var diatas
   // perlu akses ke container div karena ingin membuat auto scrollable
-
-
 
   // react hooks, akan di running setelah component created & everytime component update
   // [] : dependency array param control useEffect ketka di running. Empty array useEffect run only once after the component is created
   // best nya adalah setiap react useEffect kasih depen array biar dia nggak keseringan running
-  React.useEffect(() => {
+  useEffect(() => {
     const containerElem = chatMessagesRef.current; //dipanggil disini agar bisa auto scrollable. ref untuk referensi containernya. di useEffect untuk aksinya
     if(containerElem){
       containerElem.scrollTop = containerElem.scrollHeight;
