@@ -1,5 +1,6 @@
 import RobotProfile from '../assets/robot.png';
 import UserProfile from '../assets/profile.png';
+import './ChatMessage.css';
 
 export function ChatMessage({message, sender}){
   // props parameter itu object yang contain all attributes yg kita kasih di function return app dibawah 

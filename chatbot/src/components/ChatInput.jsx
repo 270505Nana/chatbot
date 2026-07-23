@@ -1,5 +1,6 @@
 import { useState} from 'react'
 import {Chatbot} from 'supersimpledev';
+import './ChatInput.css';
 
 // function component : dengan return JSX view text input perintah kepada chatbot
 export function ChatInput({ chatMessages, setChatMessages }) {
